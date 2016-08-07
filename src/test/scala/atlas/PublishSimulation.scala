@@ -15,7 +15,7 @@ class PublishSimulation extends Simulation {
   val publish = (0 until 150).map { i =>
     scenario(s"publish-$i")
       .during(12 minutes) {
-        exec(feed(new PublishFeeder("test", i, 1000)))
+        exec(feed(new PublishFeeder("test", i, 10000)))
           .exec(http("publish").post("/api/v1/publish").body(StringBody("""${test}""")))
           .pause(1 seconds)
       }
