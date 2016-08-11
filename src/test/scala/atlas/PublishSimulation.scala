@@ -11,12 +11,13 @@ class PublishSimulation extends Simulation {
     .acceptEncodingHeader("gzip, deflate")
     .acceptLanguageHeader("en-US,en;q=0.5")
     .userAgentHeader("test")
+    .header("Content-Encoding", "gzip")
 
   val publish = (0 until 150).map { i =>
     scenario(s"publish-$i")
-      .during(12 minutes) {
-        exec(feed(new PublishFeeder("test", i, 10000)))
-          .exec(http("publish").post("/api/v1/publish").body(StringBody("""${test}""")))
+      .during(10 hours) {
+        exec(feed(new PublishFeeder("test", i, 1000)))
+          .exec(http("publish").post("/api/v1/publish").body(StringBody("""${test}""")).processRequestBody(gzipBody))
           .pause(1 seconds)
       }
   }
