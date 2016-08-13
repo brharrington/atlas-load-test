@@ -18,7 +18,7 @@ class PublishSimulation extends Simulation {
       .during(10 hours) {
         exec(feed(new PublishFeeder("test", i, 1000)))
           .exec(http("publish").post("/api/v1/publish").body(StringBody("""${test}""")).processRequestBody(gzipBody))
-          .pause(1 seconds)
+          .pace(1 seconds)
       }
   }
 
